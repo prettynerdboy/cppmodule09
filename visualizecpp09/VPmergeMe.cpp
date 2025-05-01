@@ -295,3 +295,14 @@ std::vector<int> const &PmergeMe::getSort(void)const
 {
     return (_sorted);
 };
+
+bool PmergeMe::isSorted() const
+{
+    if (_sorted.empty()) return true;
+    for (size_t i = 1; i < _sorted.size(); ++i)
+    {
+        if (_sorted[i] < _sorted[i-1])
+            return false;
+    }
+    return true;
+}

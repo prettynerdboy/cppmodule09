@@ -17,6 +17,15 @@ int main(int argc, char **argv) {
 
         sorter.parseInput(argv);
         sorter.fordJohnsonSort();
+        if (!sorter.isSorted())
+        {
+            std::cout <<std::endl << "Error: Vector sort failed!\nUnsorted result: ";
+            const std::vector<int>& vecResult = sorter.getSort();
+            for (size_t i = 0; i < vecResult.size(); ++i)
+                std::cout << vecResult[i] << " ";
+            std::cout << std::endl;
+            return 1;
+        }
         if(sorter.getInput().size() !=sorter.getSort().size())
         {
             std::cerr << "Fatal error ocuured " << std::endl;

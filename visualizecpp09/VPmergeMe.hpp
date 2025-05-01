@@ -42,6 +42,7 @@ public:
     void printResult();
     std::vector<int> const &getInput(void)const;
     std::vector<int> const &getSort(void)const;
+    bool isSorted() const;
 };
 
 #endif
