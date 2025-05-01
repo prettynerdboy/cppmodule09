@@ -36,6 +36,7 @@ public:
     void parseInput(char **argv);
     void fordJohnsonSort();
     void printResult();
+    double getProcessingTime() const;
 };
 
 #endif

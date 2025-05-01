@@ -188,12 +188,18 @@ void PmergeMe::recursiveFordJohnsonSort(std::vector<int>& arr)
     arr = mainChain;
 }
 
+double PmergeMe::getProcessingTime() const
+{
+    return 1000000.0 * (_end - _start) / CLOCKS_PER_SEC;
+}
+
+
 void PmergeMe::printResult()
 {
     std::cout << "After: ";
     for (size_t i = 0; i < _sorted.size(); ++i)
         std::cout << _sorted[i] << " ";
     std::cout << std::endl;
-    double time_us = 1000000.0 * (_end - _start) / CLOCKS_PER_SEC;
-    std::cout << "Time to process: " << time_us << " us" << std::endl;
+    // double time_us = 1000000.0 * (_end - _start) / CLOCKS_PER_SEC;
+    // std::cout << "Time to process: " << time_us << " us" << std::endl;
 }
