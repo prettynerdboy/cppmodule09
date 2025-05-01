@@ -19,7 +19,7 @@ private:
     std::clock_t _start;
     std::clock_t _end;
 
-    std::vector<size_t> generateJacobsthalIndices(size_t count);
+    std::vector<size_t> generateInsertIndex(size_t count);
 
     size_t binarySearch(const std::vector<int> &vec, int value, size_t maxIndex);
 

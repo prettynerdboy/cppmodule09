@@ -10,6 +10,7 @@ PmergeMe::~PmergeMe() {}
 //コマンドライン引数をチェックして全て数字なら数値に変換→有効な範囲ならコンテナに格納
 void PmergeMe::parseInput(char **argv)
 {
+    _start = std::clock();
     _input.clear();
     for (int i = 1; argv[i]; ++i)
     {
@@ -29,35 +30,58 @@ void PmergeMe::parseInput(char **argv)
 //この関数では入力の読み取りだけにしたい。
 
 
+
 //前半にヤコブスタール配列を生成して、後半にインサートするインデックスの順番を決める配列を生成する。
-std::vector<size_t> PmergeMe::generateJacobsthalIndices(size_t count)
+//配列の生成方法、ヤコブスタール配列をJとしてJ(n) - J(n-1)がグループの大きさ
+//グループの大きさで配列を分割し、先頭グループNとして、Nの最後尾→N[0]の順で挿入する、次にN＋１のグループに進む
+std::vector<size_t> PmergeMe::generateInsertIndex(size_t count)
 {
+    std::vector<size_t> indices;
     if (count == 0)
-        return std::vector<size_t>();
-    std::vector<size_t> jacob ;
+        return indices;
+    std::vector<size_t> jacob;
     jacob.push_back(1);
     jacob.push_back(3);
     while (jacob.back() < count)
         jacob.push_back(jacob.back() + 2 * jacob[jacob.size() - 2]);
     if (jacob.back() >= count)
         jacob.pop_back();
-    std::vector<size_t> groupSizes;
+        std::vector<size_t> groupSizes;
     groupSizes.push_back(jacob[0]);
     for (size_t i = 1; i < jacob.size(); ++i)
         groupSizes.push_back(jacob[i] - jacob[i - 1]);
-    std::vector<size_t> indices;
-    size_t offset = count;
-    for (int i = static_cast<int>(groupSizes.size()) - 1; i >= 0; --i)
+    std::vector<size_t> src;
+    for (size_t i = 0; i < count; ++i)
+        src.push_back(count - 1 - i);
+    for (size_t i = 0; i < groupSizes.size(); ++i)
     {
+        std::vector<size_t> tmp;
         size_t groupSize = groupSizes[i];
-        if (offset < groupSize)
-            groupSize = offset;
-
-        for (size_t j = 0; j < groupSize; ++j)
+        size_t x = (groupSize < src.size()) ? groupSize : src.size();
+        for (size_t j = 0; j < x; ++j)
         {
-            indices.push_back(offset - 1 - j);
+            tmp.push_back(src.back());
+            src.pop_back();
         }
-        offset -= groupSize;
+        while (!tmp.empty())
+        {
+            indices.push_back(tmp.back());
+            tmp.pop_back();
+        }
+    }
+    while (!src.empty())
+    {
+        std::vector<size_t> tmp;
+        while (!src.empty())
+        {
+            tmp.push_back(src.back());
+            src.pop_back();
+        }
+        while (!tmp.empty())
+        {
+            indices.push_back(tmp.back());
+            tmp.pop_back();
+        }
     }
     return indices;
 }
@@ -104,7 +128,6 @@ void PmergeMe::insertInJacobsthalOrder(std::vector<int> &mainChain,
 
 void PmergeMe::fordJohnsonSort()
 {
-    _start = std::clock();
     _sorted = _input;
     recursiveFordJohnsonSort(_sorted);
     _end = std::clock();
@@ -153,7 +176,7 @@ void PmergeMe::recursiveFordJohnsonSort(std::vector<int>& arr)
         }
     }
 
-    std::vector<size_t> indices = generateJacobsthalIndices(insertChain.size());
+    std::vector<size_t> indices = generateInsertIndex(insertChain.size());
     insertInJacobsthalOrder(mainChain, insertChain, indices, pairs);
 
     if (pend != -1)
