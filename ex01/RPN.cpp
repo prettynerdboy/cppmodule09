@@ -47,24 +47,24 @@ void	RPN::calculation( std::string input)
             int value = token[0] - '0';
             if(value < 0 || value > 9)
                 throw InvalidTokenException();
-            _storage.push(value);
+            _storage.push_back(value);
         }
         else if(token.length()==1 && isOperator(token[0]))
         {
             if(_storage.size() < 2)
                 throw SyntaxErrorException();
-            int right = _storage.top();
-            _storage.pop();
-            int left = _storage.top();
-            _storage.pop();
-            _storage.push(safeCalculate(left,right,token[0]));
+            int right = _storage.back();
+            _storage.pop_back();
+            int left = _storage.back();
+            _storage.pop_back();
+            _storage.push_back(safeCalculate(left,right,token[0]));
         }
         else
             throw InvalidTokenException();
     }
     if(_storage.size()!=1)
         throw SyntaxErrorException();
-    std::cout << _storage.top() << std::endl;
+    std::cout << _storage.back() << std::endl;
 };
 
 

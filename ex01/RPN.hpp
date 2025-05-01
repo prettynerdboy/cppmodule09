@@ -5,7 +5,7 @@
 #include <sstream>
 #include <limits>
 #include <cctype>
-#include <stack>
+#include <list>
 
 class RPN {
 private:
@@ -15,7 +15,7 @@ private:
     bool isOperator(char c);
     int safeCalculate(int a, int b, char op);
     //member
-	std::stack<int>	_storage;
+	std::list<int>	_storage;
 public:
 	RPN( void );
 	~RPN( void );
