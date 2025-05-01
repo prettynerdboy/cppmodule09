@@ -32,7 +32,7 @@ private:
 public:
     PmergeMeDeque();
     ~PmergeMeDeque();
-    
+    const std::deque<int>& getSorted() const;
     void parseInput(char **argv);
     void fordJohnsonSort();
     void printResult();

@@ -188,6 +188,13 @@ void PmergeMe::recursiveFordJohnsonSort(std::vector<int>& arr)
     arr = mainChain;
 }
 
+bool PmergeMe::isSameResult(const std::deque<int>& other) const
+{
+    if (_sorted.size() != other.size())
+        return false;
+    return std::equal(_sorted.begin(), _sorted.end(), other.begin());
+}
+
 double PmergeMe::getProcessingTime() const
 {
     return 1000000.0 * (_end - _start) / CLOCKS_PER_SEC;
@@ -202,4 +209,15 @@ void PmergeMe::printResult()
     std::cout << std::endl;
     // double time_us = 1000000.0 * (_end - _start) / CLOCKS_PER_SEC;
     // std::cout << "Time to process: " << time_us << " us" << std::endl;
+}
+
+bool PmergeMe::isSorted() const
+{
+    if (_sorted.empty()) return true;
+    for (size_t i = 1; i < _sorted.size(); ++i)
+    {
+        if (_sorted[i] < _sorted[i-1])
+            return false;
+    }
+    return true;
 }

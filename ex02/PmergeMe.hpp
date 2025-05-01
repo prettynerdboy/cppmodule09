@@ -2,6 +2,7 @@
 #define PMERGEME_HPP
 
 #include <vector>
+#include <deque>
 #include <utility>
 #include <iostream>
 
@@ -37,6 +38,9 @@ public:
     void fordJohnsonSort();
     void printResult();
     double getProcessingTime() const;
+    bool isSameResult(const std::deque<int>& other) const;
+    const std::vector<int>& getSorted() const { return _sorted; }
+    bool isSorted() const;
 };
 
 #endif
